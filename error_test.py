@@ -44,5 +44,5 @@ var_distance = sum((distance-mean_distance) **
 print(f"\nDistance error\n---")
 print(f"Mean: {max_distance}")
 print(f"Var: {var_distance}")
-print(f"Min:  {max_distance}")
+print(f"Min:  {min_distance}")
 print(f"Max: {mean_distance}")

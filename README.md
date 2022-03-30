@@ -53,3 +53,15 @@ python3 label_comparator.py 'original_ply' 'new_ply'
 ```
 
 ### Output
+
+## label_comparator_autorun
+
+Execute label_comparator on a original .ply file and a whole folder of other ply files
+
+```python
+python3 label_comparator_autorun.py 'original_ply' 'folder_path'
+```
+
+### Output
+
+There is an example of logs in log/logs

@@ -79,7 +79,7 @@ def compute_plans_correspondance(o_plans, t_plans):
 
 
 def compute_points_difference(plan_a, plan_b):
-    return len(set(plan_a).difference(set(plan_b)))
+    return set(plan_a).difference(set(plan_b))
 
 
 def label_comparator(input_original_pcd, input_tested_pcd):
@@ -104,7 +104,7 @@ def label_comparator(input_original_pcd, input_tested_pcd):
 
     print("\n--- Comparing ---")
     # Doing comparisons between two pcd
-    points_error = 0
+    points_error = set()
     plan_difference = len(o_plans.keys()) - len(t_plans.keys())
     plan_correspondance = {}
 
@@ -115,29 +115,31 @@ def label_comparator(input_original_pcd, input_tested_pcd):
         points_error = compute_points_difference(
             t_plans[black_key], o_plans[black_key])
     else:
-        points_error = len(t_plans[black_key])
+        points_error = points_error.union(set(t_plans[black_key]))
 
     # If only points no labeled
 
-    if points_error != len(t_colors_list):
+    if len(points_error) != len(t_colors_list):
         plan_correspondance = compute_plans_correspondance(o_plans, t_plans)
 
-    diff_tab = []
-    diff_counted = set()
+    difference_tab = []
 
     for key in plan_correspondance:
         o_plan = o_plans[key]
         t_plan = t_plans[plan_correspondance[key]]
-        points_difference = compute_points_difference(o_plan, t_plan)
 
-        points_error += points_difference
+        points_difference = compute_points_difference(o_plan, t_plan)
+        difference_tab.append(len(points_difference))
+
+        points_error = points_error.union(points_difference)
+
         o_plan_index = list(o_plans.keys()).index(key)
         t_plan_index = list(t_plans.keys()).index(plan_correspondance[key])
         print("Original plan: ", o_plan_index,
               "- New plan", t_plan_index,
-              "- Points difference:", points_difference)
+              "- Points difference:", len(points_difference))
 
-    print("\n TOTAL DIFF=", points_error)
+    print("\n TOTAL DIFF=", len(points_error))
 
     comparator = {
         'plan_original': len(o_plans.keys()),
@@ -145,8 +147,8 @@ def label_comparator(input_original_pcd, input_tested_pcd):
         'plan_tested': len(t_plans.keys()),
         'plan_tested_color': t_plans.keys(),
         'plan_corresponding': plan_correspondance,
-        'diff_per_plan_tab': diff_tab,
-        'points_misplaced': points_error,
+        'diff_per_plan_tab': difference_tab,
+        'points_misplaced': len(points_error),
         'points_total': len(original_pcd.colors)
     }
     return comparator

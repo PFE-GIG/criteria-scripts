@@ -44,6 +44,8 @@ python3 error_test 'input_original_pcd' 'input_noised_pcd'
 
 ### Output
 
+Console display
+
 ## label_comparator
 
 Compute between two plane coloured .ply point clouds difference between planes
@@ -53,6 +55,8 @@ python3 label_comparator.py 'original_ply' 'new_ply'
 ```
 
 ### Output
+
+Console display
 
 ## label_comparator_autorun
 

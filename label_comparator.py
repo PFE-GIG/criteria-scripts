@@ -84,7 +84,7 @@ def label_comparator(input_original_pcd, input_tested_pcd):
                 if(diff_new < diff_curr):
                     layers_corresponding[o_key] = t_key
             else:
-                total_diff += t_layers[t_key]
+                total_diff += t_layers['[0. 0. 0.]']
 
     plan_correspondance = {}
 

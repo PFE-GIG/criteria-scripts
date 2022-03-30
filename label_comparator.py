@@ -114,11 +114,13 @@ def label_comparator(input_original_pcd, input_tested_pcd):
     if black_key in o_plans.keys():
         points_error = compute_points_difference(
             t_plans[black_key], o_plans[black_key])
+
     else:
         points_error = points_error.union(set(t_plans[black_key]))
 
-    # If only points no labeled
+    cover_rate = len(points_error)/len(o_colors_list)
 
+    # If only points no labeled
     if len(points_error) != len(t_colors_list):
         plan_correspondance = compute_plans_correspondance(o_plans, t_plans)
 
@@ -147,6 +149,7 @@ def label_comparator(input_original_pcd, input_tested_pcd):
         'plan_tested': len(t_plans.keys()),
         'plan_tested_color': t_plans.keys(),
         'plan_corresponding': plan_correspondance,
+        'cover_rate': cover_rate,
         'diff_per_plan_tab': difference_tab,
         'points_misplaced': len(points_error),
         'points_total': len(original_pcd.colors)

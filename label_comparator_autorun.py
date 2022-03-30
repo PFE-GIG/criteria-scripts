@@ -43,6 +43,9 @@ def comparator_writing(file_to_write, file_compared, data):
     file_to_write.write("\nPlans compared: " + str(data['plan_tested']))
     file_to_write.write("\nPoints misplaced: " + str(data['points_misplaced']))
 
+    cover_rate = data['cover_rate']
+    file_to_write.write("\nCover rate:" + "{0:.2f}%".format(cover_rate * 100))
+
     error_rate = data['points_misplaced'] / data['points_total']
     file_to_write.write("\nError rate: " + "{0:.2f}%".format(error_rate * 100))
 

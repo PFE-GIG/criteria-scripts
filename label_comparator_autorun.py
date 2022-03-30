@@ -39,9 +39,36 @@ def comparator_writing(file_to_write, file_compared, data):
     file_to_write.write("\n---------")
     file_to_write.write("\nPlans original: " + str(data['plan_original']))
     file_to_write.write("\nPlans compared: " + str(data['plan_tested']))
+    file_to_write.write("\nPoints misplaced: " + str(data['points_misplaced']))
 
-    plan_difference = data['plan_original'] - data['plan_tested']
-    file_to_write.write("\nPlans difference: " + plan_difference)
+    error_rate = data['points_misplaced'] / data['points_total']
+    file_to_write.write("\nError rate: " + "{0:.2f}%".format(error_rate * 100))
+
+    plan_difference = data['plan_tested'] - data['plan_original']
+    file_to_write.write("\nPlans difference: " + str(plan_difference))
+    if(plan_difference > 0):
+        file_to_write.write(" (OVER-SEGMENTATION)")
+    if(plan_difference < 0):
+        file_to_write.write(" (SUB-SUGMENTATION)")
+
+    file_to_write.write("\n--- DETAILS ---")
+    file_to_write.write("\nPlan original color: ")
+    for color in data['plan_original_color']:
+        plan_id = str(list(data['plan_original_color']).index(color))
+        file.write("\n- Plan " + plan_id + ' - Color: ' + color)
+
+    file_to_write.write("\n\nPlan tested color: ")
+    for color in data['plan_tested_color']:
+        plan_id = str(list(data['plan_tested_color']).index(color))
+        file.write("\n- Plan " + plan_id + ' - Color: ' + color)
+
+    file_to_write.write("\n\nPlan correspondance:")
+    for original_plan in data['plan_corresponding'].keys():
+        tested_plan_corresponding = data['plan_corresponding'][original_plan]
+        file.write("\n- Plan original: "
+                   + str(original_plan)
+                   + " - Plan tested: "
+                   + str(tested_plan_corresponding))
 
 
 with open("logs/logs.txt", "w") as file:

@@ -37,15 +37,19 @@ def label_comparator(input_original_pcd, input_tested_pcd):
     print("Layers: ", len(o_layers.keys()))
 
     for key in o_layers.keys():
-        print("Color: ", key, "- Points: ", len(o_layers[key]))
+        print("Plan: ", list(o_layers.keys()).index(key),
+              " - Color: ",
+              key,
+              " - Points: ", len(o_layers[key]))
 
     print("\n--- Computing tested ---")
 
+    # Dictionnary of points classified by their color - tested
+
     t_colors_list = np.asarray(tested_pcd.colors)
 
-    t_layers = {str(o_colors_list[0]): [0]}
+    t_layers = {str(t_colors_list[0]): [0]}
 
-    # Dictionnary of points classified by their color - tested
     for i in range(len(t_colors_list)):
         if(str(t_colors_list[i]) in t_layers.keys()):
             t_layers[str(t_colors_list[i])].append(i)
@@ -55,7 +59,10 @@ def label_comparator(input_original_pcd, input_tested_pcd):
     print("Layers: ", len(t_layers.keys()))
 
     for key in t_layers.keys():
-        print("Color: ", key, "- Points: ", len(t_layers[key]))
+        print("Plan: ", list(t_layers.keys()).index(key),
+              " - Color: ",
+              key,
+              " - Points: ", len(t_layers[key]))
 
     # Doing comparisons between two models
     print("\n--- Comparing ---")
@@ -74,6 +81,12 @@ def label_comparator(input_original_pcd, input_tested_pcd):
             diff_new = len(set(o_layers[o_key]) - set(t_layers[t_key]))
             if(diff_new < diff_curr):
                 layers_corresponding[o_key] = t_key
+
+    plan_correspondance = {}
+
+    for o_key in o_layers.keys():
+        plan_correspondance[list(o_layers.keys()).index(
+            o_key)] = list(t_layers.keys()).index(layers_corresponding[o_key])
 
     total_diff = 0
     diff_tab = []
@@ -94,14 +107,15 @@ def label_comparator(input_original_pcd, input_tested_pcd):
         'plan_original_color': o_layers.keys(),
         'plan_tested': len(t_layers.keys()),
         'plan_tested_color': t_layers.keys(),
-        'plan_corresponding': layers_corresponding,
+        'plan_corresponding': plan_correspondance,
         'diff_per_plan_tab': diff_tab,
-        'total_difference': total_diff
+        'points_misplaced': total_diff,
+        'points_total': len(original_pcd.colors)
     }
     return comparator
 
 
-input_original = sys.argv[1]
-input_tested = sys.argv[2]
+# input_original = sys.argv[1]
+# input_tested = sys.argv[2]
 
-label_comparator(input_original, input_tested)
+# label_comparator(input_original, input_tested)

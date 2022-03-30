@@ -76,11 +76,14 @@ def label_comparator(input_original_pcd, input_tested_pcd):
     for o_key in o_layers.keys():
         layers_corresponding[o_key] = list(t_layers.keys())[0]
         for t_key in t_layers.keys():
-            diff_curr = len(set(o_layers[o_key]) -
-                            set(t_layers[layers_corresponding[o_key]]))
-            diff_new = len(set(o_layers[o_key]) - set(t_layers[t_key]))
-            if(diff_new < diff_curr):
-                layers_corresponding[o_key] = t_key
+            if t_key != '[0. 0. 0.]':
+                diff_curr = len(set(o_layers[o_key]) -
+                                set(t_layers[layers_corresponding[o_key]]))
+                diff_new = len(set(o_layers[o_key]) - set(t_layers[t_key]))
+                if(diff_new < diff_curr):
+                    layers_corresponding[o_key] = t_key
+            else:
+                total_diff = t_layers[t_key]
 
     plan_correspondance = {}
 

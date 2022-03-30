@@ -72,6 +72,7 @@ def label_comparator(input_original_pcd, input_tested_pcd):
     print("Layers difference: ", layer_difference)
 
     layers_corresponding = {}
+    total_diff = 0
 
     for o_key in o_layers.keys():
         layers_corresponding[o_key] = list(t_layers.keys())[0]
@@ -83,7 +84,7 @@ def label_comparator(input_original_pcd, input_tested_pcd):
                 if(diff_new < diff_curr):
                     layers_corresponding[o_key] = t_key
             else:
-                total_diff = t_layers[t_key]
+                total_diff += t_layers[t_key]
 
     plan_correspondance = {}
 
@@ -91,7 +92,6 @@ def label_comparator(input_original_pcd, input_tested_pcd):
         plan_correspondance[list(o_layers.keys()).index(
             o_key)] = list(t_layers.keys()).index(layers_corresponding[o_key])
 
-    total_diff = 0
     diff_tab = []
 
     for key in layers_corresponding:

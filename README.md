@@ -68,4 +68,4 @@ python3 label_comparator_autorun.py 'original_ply' 'folder_path'
 
 ### Output
 
-There is an example of logs in log/logs
+There is an example of logs wiht logs_example.txt

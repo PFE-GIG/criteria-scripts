@@ -18,6 +18,8 @@ from os.path import isfile, join
 
 input_original = sys.argv[1]
 ply_folder = sys.argv[2]
+logs_name = sys.argv[3]
+
 
 datas = {}
 
@@ -71,7 +73,7 @@ def comparator_writing(file_to_write, file_compared, data):
                    + str(tested_plan_corresponding))
 
 
-with open("logs/logs.txt", "w") as file:
+with open("logs/" + logs_name + "_logs.txt", "w") as file:
     header_writing(file)
     for ply_file in ply_files:
         file.write('\n\n')
